@@ -34,7 +34,11 @@ router.delete("/", AuthService.isAuthorized(),ToDoService.removeTodo(),async (re
         throw err;
     }
 })
-router.patch("/order",AuthService.isAuthorized(), ToDoService.updateOrder(),async(req,res)=>{
-res.json({todos: req.todos})
+router.patch("/reorder",AuthService.isAuthorized(), ToDoService.updateOrder(),async(req,res)=>{
+    try {
+        res.json({todos: req.todos})
+    } catch (error) {
+        throw err;
+    }
 })
 module.exports = router;

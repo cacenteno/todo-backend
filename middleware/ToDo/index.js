@@ -67,13 +67,16 @@ module.exports = {
     },
     updateOrder: () => {
         return async (req, res, next) => {
-            let todos = req.body.todos;
+
             if (req.body.todos) {
-                var user = await User.findOneAndUpdate({ _id: req.decoded.data._id }, (err, data) => {
+                var user = await User.findOne({ _id: req.decoded.data._id }, (err, data) => {
                     if (!data) return false
+                    data.todos = req.body.todos;
+                    data.save()
+                    req.todos = data.todos
+                    next(null, req)
                 })
                 if (!user) {
-                    let err = new Error("Cannot process request")
                     next(err)
                 }
             }
